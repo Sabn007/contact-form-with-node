@@ -8,7 +8,10 @@ exports.handler = async (event) => {
     });
 
     const db = mongoose.connection;
-
+    return {
+      statusCode: 200, // Correct status code
+      body: JSON.stringify({ message: "Data fetched successfully" }),
+    };
     // Rest of your contacts route logic...
   } catch (error) {
     return {
