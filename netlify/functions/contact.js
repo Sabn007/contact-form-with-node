@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 exports.handler = async (event) => {
   try {
-    mongoose.connect(process.env.MONGODB_URI, {
+    mongoose.connect("mongodb://localhost:27017/contact-form", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
