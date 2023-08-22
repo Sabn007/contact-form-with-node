@@ -9,9 +9,16 @@ exports.handler = async (event) => {
 
     const db = mongoose.connection;
 
-    // Ensure the connection is open before querying
-    await db.once("open", async () => {
-      // Define a contact schema
+    db.on("error", (error) => {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: "An error occurred while connecting to the database.",
+        }),
+      };
+    });
+
+    db.once("open", async () => {
       const contactSchema = new mongoose.Schema({
         name: String,
         email: String,
@@ -20,23 +27,28 @@ exports.handler = async (event) => {
 
       const Contact = mongoose.model("Contact", contactSchema);
 
-      // Query all contacts
-      const contacts = await Contact.find();
+      try {
+        const contacts = await Contact.find();
+        db.close();
 
-      // Close the MongoDB connection
-      db.close();
-
-      // Return the fetched contacts
-      return {
-        statusCode: 200,
-        body: JSON.stringify(contacts),
-      };
+        return {
+          statusCode: 200,
+          body: JSON.stringify(contacts),
+        };
+      } catch (error) {
+        return {
+          statusCode: 500,
+          body: JSON.stringify({
+            error: "An error occurred while fetching contacts.",
+          }),
+        };
+      }
     });
   } catch (error) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: "An error occurred while fetching contacts.",
+        error: "An error occurred while connecting to the database.",
       }),
     };
   }
