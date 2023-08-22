@@ -10,7 +10,10 @@ exports.handler = async (event) => {
     const db = mongoose.connection;
 
     const contacts = await Contact.find(); // Retrieve all contacts from the database
-    res.status(200).json(contacts);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(contacts),
+    };
   } catch (error) {
     return {
       statusCode: 500,
