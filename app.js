@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors"); // Import the cors package
-
+const Contact = require("./model/message");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -10,24 +10,18 @@ app.use(bodyParser.json());
 app.use(cors()); // Use the cors middleware to allow all origins
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/contact-form", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://sabin:G00xdAbxJfNIcLwj@cluster0.s1mwxqr.mongodb.net/",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB successfully");
 });
-
-// Define a contact schema
-const contactSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  message: String,
-});
-
-const Contact = mongoose.model("Contact", contactSchema);
 
 // API endpoint for submitting a contact form
 app.post("/submit", async (req, res) => {
