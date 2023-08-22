@@ -3,10 +3,13 @@ const mongoose = require("mongoose");
 exports.handler = async (event) => {
   try {
     // Connect to the MongoDB database
-    await mongoose.connect("mongodb://localhost:27017/contact-form", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(
+      "mongodb+srv://sabin:G00xdAbxJfNIcLwj@cluster0.s1mwxqr.mongodb.net/",
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
 
     // Define a contact schema
     const contactSchema = new mongoose.Schema({

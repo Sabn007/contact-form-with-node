@@ -2,10 +2,13 @@ const mongoose = require("mongoose");
 
 exports.handler = async (event) => {
   try {
-    mongoose.connect("mongodb://localhost:27017/contact-form", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    mongoose.connect(
+      "mongodb+srv://sabin:G00xdAbxJfNIcLwj@cluster0.s1mwxqr.mongodb.net/",
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
 
     const db = mongoose.connection;
 
