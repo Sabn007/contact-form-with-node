@@ -9,21 +9,8 @@ exports.handler = async (event) => {
 
     const db = mongoose.connection;
 
-    const contactSchema = new mongoose.Schema({
-      name: String,
-      email: String,
-      message: String,
-    });
-
-    const Contact = mongoose.model("Contact", contactSchema);
-
-    const contacts = await Contact.find();
-    db.close();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(contacts),
-    };
+    const contacts = await Contact.find(); // Retrieve all contacts from the database
+    res.status(200).json(contacts);
   } catch (error) {
     return {
       statusCode: 500,
